@@ -126,10 +126,11 @@ def cgi_wrap(request, cgi_binary, env={}, cwd=None, query_string=None,
     tmpfh = tempfile.NamedTemporaryFile(delete=False)
     try:
         proc = subprocess.Popen(cgi_binary,
-                stdin=subprocess.PIPE,
-                stdout=tmpfh,
-                env=env_predef,
-                cwd=cwd)
+                                stdin=subprocess.PIPE,
+                                stdout=tmpfh,
+                                env=env_predef,
+                                cwd=cwd,
+                                stderr=subprocess.PIPE)
         shutil.copyfileobj(request, proc.stdin)
         stdout, stderr = proc.communicate()
         rc = proc.wait()
